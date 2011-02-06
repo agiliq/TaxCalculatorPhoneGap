@@ -39,7 +39,7 @@
 	{
         $("#calculate_tax").click(function(){
             income = $("#income").val();
-        	investment = $("#infra_investment").val();
+        	investment = $("#investment").val();
 			infra_investment = $("#infra_investment").val();
 			housing_interest = $("#housing_interest").val();
 			medical_premium =  $("#medical_premium").val();
@@ -59,7 +59,6 @@
 			if (!medical_premium){
 				medical_premium = 0;
 			}
-			console.log(""+income+investment+infra_investment+housing_interest+medical_premium);
 			
 			income = parseInt(income);
 			investment = parseInt(investment);			
@@ -73,15 +72,39 @@
 			calculated_tax  = $("#calculated_tax");
 			calculated_tax.html(tax);
         });
+		
+		function getTax(taxableIncome){
+		    var taxOnThisSlab;
+		    if (taxableIncome < 160000) {
+		        return 0;
+		    }
+		    else if (taxableIncome < 500000){
+		        taxOnThisSlab = 0.1 * (taxableIncome - 160000);
+		        return taxOnThisSlab;
+		    }
+		    else if (taxableIncome < 800000){
+		        taxOnThisSlab = 0.2 * (taxableIncome - 500000);
+		        return taxOnThisSlab + 34000;
 
-		function getTax(taxable_income){
-			return 1000;
-			
+		    }
+		    else {
+		        taxOnThisSlab = 0.3 * (taxableIncome - 800000);
+		        return taxOnThisSlab + 94000;
+		    }
+
 		}
+
 		
 		function calculateTax(income, investment, infra_investment, housing_interest, medical_premium){
-			return 1000;
+			investment = Math.max(0, Math.min(investment, 100000));
+			infra_investment = Math.max(0, Math.min(infra_investment, 20000));
+			housing_interest = Math.max(0, Math.min(housing_interest, 15000));
+			medical_premium = Math.max(0, Math.min(medical_premium, 35000));
+			var taxable_income = income -  (investment + infra_investment + housing_interest + medical_premium);
+			var tax = getTax(taxable_income);
+			return tax;
 		}
+		
 
 	}
 	
@@ -106,7 +129,7 @@
   	<label>
   		Your investments under 80C are:
   	</label>
-  	<input type="number"  placeholder=0 id="invesments"></input>
+  	<input type="number"  placeholder=0 id="investment"></input>
  </div>
 
 
@@ -114,7 +137,7 @@
   	<label>
   		Your investments under 80D are:
   	</label>
-  	<input type="number"  placeholder=0 id="infra_investments"></input>
+  	<input type="number"  placeholder=0 id="infra_investment"></input>
  </div>
 
 
@@ -122,7 +145,7 @@
   	<label>
   		Your housing loan interests paid are:
   	</label>
-  	<input type="number"  placeholder=0 id="housing_loan_interest"></input>
+  	<input type="number"  placeholder=0 id="housing_interest"></input>
  </div>
 
 
