@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+	<!-- Change this if you want to allow scaling -->
+    <meta name="viewport" content="width=default-width; user-scalable=no" />
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <title>TaxCalcPhoneGap</title>
+	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="layout.css" type="text/css" />		
+
+	<!-- iPad/iPhone specific css below, add after your main css >
+	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+
+	-->
+	<!-- If you application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	<script type="text/javascript" charset="utf-8" src="jquery-1.5.min.js"></script>	
+    <script type="text/javascript" charset="utf-8">
+
+
+	// If you want to prevent dragging, uncomment this section
+	/*
+	function preventBehavior(e) 
+	{ 
+      e.preventDefault(); 
+    };
+	document.addEventListener("touchmove", preventBehavior, false);
+	*/
+	
+	function onBodyLoad()
+	{
+		document.addEventListener("deviceready",onDeviceReady,false);
+	}
+	
+	/* When this function is called, PhoneGap has been initialized and is ready to roll */
+	function onDeviceReady()
+	{
+        $("#calculate_tax").click(function(){
+            income = $("#income").val();
+        	investment = $("#infra_investment").val();
+			infra_investment = $("#infra_investment").val();
+			housing_interest = $("#housing_interest").val();
+			medical_premium =  $("#medical_premium").val();
+			console.log(""+income+investment+infra_investment+housing_interest+medical_premium);
+			if (!income){
+				income = 0;
+			}
+			if (!investment){
+				investment = 0;
+			}
+			if (!infra_investment){
+				infra_investment = 0;
+			}
+			if (!housing_interest){
+				housing_interest = 0;
+			}
+			if (!medical_premium){
+				medical_premium = 0;
+			}
+			console.log(""+income+investment+infra_investment+housing_interest+medical_premium);
+			
+			income = parseInt(income);
+			investment = parseInt(investment);			
+			infra_investment = parseInt(infra_investment);
+			housing_interest = parseInt(housing_interest);
+			medical_premium = parseInt(medical_premium);									
+			
+			console.log(""+income+investment+infra_investment+housing_interest+medical_premium);
+			var tax = calculateTax(income, investment, infra_investment, housing_interest, medical_premium);
+			console.log(""+tax);			
+			calculated_tax  = $("#calculated_tax");
+			calculated_tax.html(tax);
+        });
+
+		function getTax(taxable_income){
+			return 1000;
+			
+		}
+		
+		function calculateTax(income, investment, infra_investment, housing_interest, medical_premium){
+			return 1000;
+		}
+
+	}
+	
+	
+    
+    </script>
+  </head>
+  <body onload="onBodyLoad()">
+  
+  <label id="calculated_tax">Enter values to calculate tax.</label>
+
+
+  <div class="input">
+  	<label>
+  		Your income is:
+  	</label>
+  	<input type="number" placeholder=0 id="income"></input>
+ </div>
+
+
+  <div class="input">
+  	<label>
+  		Your investments under 80C are:
+  	</label>
+  	<input type="number"  placeholder=0 id="invesments"></input>
+ </div>
+
+
+  <div class="input">
+  	<label>
+  		Your investments under 80D are:
+  	</label>
+  	<input type="number"  placeholder=0 id="infra_investments"></input>
+ </div>
+
+
+  <div class="input">
+  	<label>
+  		Your housing loan interests paid are:
+  	</label>
+  	<input type="number"  placeholder=0 id="housing_loan_interest"></input>
+ </div>
+
+
+  <div class="input">
+  	<label>
+  		Your medical premium paid is:
+  	</label>
+  	<input type="number"  placeholder=0 id="medical_premium"></input>
+ </div>
+
+<input type="submit" id="calculate_tax" value="Calculate Tax">
+
+  </body>
+</html>
